@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice Generator — Free &amp; Private</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="privacy-banner">
+    <span>&#128274; Your data never leaves your browser. No tracking. No uploads. 100% private.</span>
+    <button id="dismiss-banner" aria-label="Dismiss">&times;</button>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <h1>Invoice Generator</h1>
+      <p class="subtitle">Free. Private. Professional.</p>
+    </div>
+  </header>
+
+  <main>
+    <form id="invoice-form" autocomplete="off">
+
+      <!-- Sender -->
+      <section class="card">
+        <div class="card-header">
+          <h2>Sender (Your Details)</h2>
+          <div class="card-actions">
+            <button type="button" id="save-sender" class="btn-small">Save</button>
+            <button type="button" id="load-sender" class="btn-small btn-outline">Load</button>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="sender-name">Name / Company *</label>
+            <input type="text" id="sender-name" required>
+          </div>
+          <div class="field">
+            <label for="sender-email">Email</label>
+            <input type="email" id="sender-email">
+          </div>
+        </div>
+        <div class="field">
+          <label for="sender-address">Address *</label>
+          <textarea id="sender-address" rows="2" required></textarea>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="sender-tax-id">Tax Number / VAT ID *</label>
+            <input type="text" id="sender-tax-id" required>
+          </div>
+          <div class="field">
+            <label for="sender-phone">Phone</label>
+            <input type="text" id="sender-phone">
+          </div>
+        </div>
+      </section>
+
+      <!-- Recipient -->
+      <section class="card">
+        <h2>Recipient</h2>
+        <div class="field">
+          <label for="recipient-name">Name / Company *</label>
+          <input type="text" id="recipient-name" required>
+        </div>
+        <div class="field">
+          <label for="recipient-address">Address *</label>
+          <textarea id="recipient-address" rows="2" required></textarea>
+        </div>
+      </section>
+
+      <!-- Invoice Details -->
+      <section class="card">
+        <h2>Invoice Details</h2>
+        <div class="grid-2">
+          <div class="field">
+            <label for="invoice-number">Invoice Number *</label>
+            <input type="text" id="invoice-number" required>
+          </div>
+          <div class="field">
+            <label for="invoice-date">Invoice Date *</label>
+            <input type="date" id="invoice-date" required>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="due-date">Due Date *</label>
+            <input type="date" id="due-date" required>
+          </div>
+          <div class="field">
+            <label for="delivery-date">Delivery / Service Date *</label>
+            <input type="date" id="delivery-date" required>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="currency">Currency</label>
+            <select id="currency">
+              <option value="EUR">EUR (&euro;)</option>
+              <option value="USD">USD ($)</option>
+              <option value="GBP">GBP (&pound;)</option>
+              <option value="CHF">CHF (Fr.)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="tax-rate">Tax Rate (%)</label>
+            <input type="number" id="tax-rate" value="19" min="0" max="100" step="0.1">
+          </div>
+        </div>
+      </section>
+
+      <!-- Line Items -->
+      <section class="card">
+        <h2>Line Items</h2>
+        <div class="items-table-wrap">
+          <table id="items-table">
+            <thead>
+              <tr>
+                <th class="col-desc">Description</th>
+                <th class="col-qty">Qty</th>
+                <th class="col-price">Unit Price</th>
+                <th class="col-total">Total</th>
+                <th class="col-action"></th>
+              </tr>
+            </thead>
+            <tbody id="items-body">
+              <!-- rows added by JS -->
+            </tbody>
+          </table>
+        </div>
+        <button type="button" id="add-item" class="btn-small btn-outline">+ Add Item</button>
+
+        <div class="totals">
+          <div class="totals-row">
+            <span>Subtotal (Net)</span>
+            <span id="subtotal">0.00</span>
+          </div>
+          <div class="totals-row">
+            <span>Tax (<span id="tax-rate-display">19</span>%)</span>
+            <span id="tax-amount">0.00</span>
+          </div>
+          <div class="totals-row totals-grand">
+            <span>Total (Gross)</span>
+            <span id="grand-total">0.00</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bank Details -->
+      <section class="card">
+        <div class="card-header">
+          <h2>Bank Details</h2>
+          <div class="card-actions">
+            <button type="button" id="save-bank" class="btn-small">Save</button>
+            <button type="button" id="load-bank" class="btn-small btn-outline">Load</button>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="bank-name">Bank Name</label>
+            <input type="text" id="bank-name">
+          </div>
+          <div class="field">
+            <label for="bank-iban">IBAN</label>
+            <input type="text" id="bank-iban">
+          </div>
+        </div>
+        <div class="field">
+          <label for="bank-bic">BIC / SWIFT</label>
+          <input type="text" id="bank-bic">
+        </div>
+      </section>
+
+      <!-- Notes -->
+      <section class="card">
+        <h2>Notes</h2>
+        <div class="field">
+          <textarea id="notes" rows="3" placeholder="Payment terms, thank you note, etc."></textarea>
+        </div>
+      </section>
+
+      <!-- Actions -->
+      <div class="actions">
+        <button type="button" id="generate-pdf" class="btn-primary">Generate PDF</button>
+      </div>
+
+    </form>
+  </main>
+
+  <footer>
+    <p>Invoice Generator &mdash; 100% client-side. Your data stays in your browser.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
