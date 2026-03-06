@@ -41,3 +41,5 @@ This tool is different:
 ## License
 
 MIT
+
+- [QR Code Generator](https://purpledoubled.github.io/qr-code-generator/) — Generate QR codes privately in your browser
